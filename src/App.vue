@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <!-- TODO: Create a loading animation with IconLoader.vue -->
     <div class="container">
       <div class="header">
         <h1 :class="{ 'is-inner': !home }">
@@ -9,6 +10,7 @@
           </router-link>
         </h1>
       </div>
+      <!-- TODO: Add a router transition that handles toggling between the list view and detail view -->
       <router-view :todos.sync="todos" />
     </div>
   </div>
@@ -16,10 +18,12 @@
 
 <script>
 import IconCaret from '@/components/svgs/IconCaret';
+import IconLoader from '@/components/svgs/IconLoader';
 
 export default {
   name: 'App',
-  components: { IconCaret },
+  components: { IconCaret, IconLoader },
+  // TODO: Hint: you'll need to watch `$route` to determine which transition to use
   computed: {
     todos () {
       return this.$store.getters.getTodos;
@@ -127,6 +131,7 @@ body {
     margin: 0 12px 20px;
     font-size: 50px;
     font-weight: 600;
+    transition: all 0.25s ease-out 0s;
     &.is-inner {
       display: inline-block;
       font-size: 18px;

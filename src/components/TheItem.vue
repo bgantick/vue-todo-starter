@@ -13,7 +13,7 @@
     </form>
     <div class="item__controls">
       <button v-if="!editing" class="button button--primary" @click="toggleItem(item)">{{ buttonText }}</button>
-      <button class="button button--text">Delete</button>
+      <button class="button button--text" @click="removeItem(item)">Delete</button>
     </div>
   </div>
 </template>
@@ -49,6 +49,7 @@ export default {
     },
     removeItem: function (item) {
       this.$store.dispatch('removeTodo', item);
+      this.$router.push({ name: 'home' });
     },
     updateTodo: function () {
       this.$store.dispatch('updateTodo', this.item);
@@ -92,6 +93,7 @@ export default {
   }
   label {
     display: block;
+    margin-bottom: 6px;
     font-size: 14px;
     font-weight: 600;
   }

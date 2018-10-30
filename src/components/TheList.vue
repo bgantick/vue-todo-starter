@@ -17,6 +17,7 @@
           <TodoItem :item.sync="item" @toggle-todo="toggleItem" @delete-todo="removeItem" />
         </li>
       </ul>
+      <!-- TODO: button snapping in is jarring - transition the following button element -->
       <button class="button button--secondary" @click="removeCompleted">Clear Completed</button>
     </div>
     <p v-else>No items!</p>

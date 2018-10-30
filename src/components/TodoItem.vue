@@ -1,12 +1,14 @@
 <template>
+  <!-- TODO: Transition this component in on create/state toggle and out on delete -->
   <article class="item">
+    <!-- TODO: Animate button state -->
     <button class="item__toggle" :class="{ 'is-complete': item.completed }" @click="toggleTodo(item)">
       <span class="u-sr-only">Toggle</span>
     </button>
     <div class="item__content">
       <router-link :to="{ name: 'todo', params: { id: item.id } }">{{ item.title }}</router-link>
       <div class="item__meta">
-        <p v-if="item.date"><span>Due</span> {{ item.date }}</p>
+        <p v-if="item.date"><span>Due</span> {{ formattedDate }}</p>
         <button class="button button--text" @click="deleteTodo(item)">Delete</button>
       </div>
     </div>
@@ -17,6 +19,15 @@
 export default {
   name: 'TodoItem',
   props: ['item'],
+  computed: {
+    formattedDate: function () {
+      const date = new Date(this.item.date);
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const year = date.getFullYear();
+      return `${month}/${day}/${year}`;
+    }
+  },
   methods: {
     toggleTodo (todo) {
       this.$emit('toggle-todo', todo);

@@ -16,7 +16,7 @@ export default new Vuex.Store({
       {
         id: 1,
         title: 'Buy googly eyes for Gritty Halloween costume',
-        details: 'They must be very googly.\nThey must be orange and menacing - preferrably slightly unsettling\nProbably buy a few because you’re not very good with a hot glue gun.',
+        details: 'They must be very googly.\n\nThey must be orange and menacing - preferrably slightly unsettling\n\nProbably buy a few because you’re not very good with a hot glue gun.',
         date: '10/30/18',
         completed: false
       },
