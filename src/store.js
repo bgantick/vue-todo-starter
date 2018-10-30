@@ -45,9 +45,11 @@ const storedId = 5;
 export default new Vuex.Store({
   state: {
     todos: [],
-    nextId: 1
+    nextId: 1,
+    loading: false
   },
   getters: {
+    getLoading: state => state.loading,
     getTodos: state => state.todos,
     getTodoById: (state) => (id) => {
       return state.todos.find(todo => todo.id === id);
@@ -55,9 +57,13 @@ export default new Vuex.Store({
     getNextId: state => state.nextId
   },
   mutations: {
+    SET_LOADING (state, todo) {
+      state.loading = true;
+    },
     FETCH_TODOS (state, todo) {
       state.todos = storedTodos;
       state.nextId = storedId;
+      state.loading = false;
     },
     ADD_TO_LIST (state, todo) {
       state.todos.push(todo);
@@ -85,8 +91,14 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    setLoading ({ commit }) {
+      return new Promise((resolve, reject) => {
+        commit('SET_LOADING');
+        resolve();
+      });
+    },
     fetchTodos ({ commit }) {
-      return delay(800).then(() => {
+      return delay(1000).then(() => {
         return commit('FETCH_TODOS');
       });
     },

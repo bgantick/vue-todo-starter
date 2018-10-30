@@ -25,6 +25,9 @@ export default {
   components: { IconCaret, IconLoader },
   // TODO: Hint: you'll need to watch `$route` to determine which transition to use
   computed: {
+    loading () {
+      return this.$store.getters.getLoading;
+    },
     todos () {
       return this.$store.getters.getTodos;
     },
@@ -35,7 +38,9 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('fetchTodos');
+    this.$store.dispatch('setLoading').then(() => {
+      this.$store.dispatch('fetchTodos');
+    });
   }
 };
 </script>

@@ -6,7 +6,7 @@
       <span class="u-sr-only">Toggle</span>
     </button>
     <div class="item__content">
-      <router-link :to="{ name: 'todo', params: { id: item.id } }">{{ item.title }}</router-link>
+      <router-link v-if="item.title" :to="{ name: 'todo', params: { id: item.id } }">{{ item.title }}</router-link>
       <div class="item__meta">
         <p v-if="item.date"><span>Due</span> {{ formattedDate }}</p>
         <button class="button button--text" @click="deleteTodo(item)">Delete</button>
