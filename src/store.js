@@ -10,39 +10,42 @@ function delay (t) {
   });
 }
 
+const storedTodos = [
+  {
+    id: 1,
+    title: 'Buy googly eyes for Gritty Halloween costume',
+    details: 'They must be very googly.\n\nThey must be orange and menacing - preferrably slightly unsettling\n\nProbably buy a few because you’re not very good with a hot glue gun.',
+    date: '10/30/18',
+    completed: false
+  },
+  {
+    id: 2,
+    title: 'Pay PECO bill',
+    details: '',
+    date: '11/20/18',
+    completed: false
+  },
+  {
+    id: 3,
+    title: 'Buy orange fur for Gritty Halloween costume',
+    details: '',
+    date: '10/30/18',
+    completed: true
+  },
+  {
+    id: 4,
+    title: 'Find a tofurkey recipe for Friendsgiving',
+    details: '',
+    date: '11/22/18',
+    completed: false
+  }
+];
+const storedId = 5;
+
 export default new Vuex.Store({
   state: {
-    todos: [
-      {
-        id: 1,
-        title: 'Buy googly eyes for Gritty Halloween costume',
-        details: 'They must be very googly.\n\nThey must be orange and menacing - preferrably slightly unsettling\n\nProbably buy a few because you’re not very good with a hot glue gun.',
-        date: '10/30/18',
-        completed: false
-      },
-      {
-        id: 2,
-        title: 'Pay PECO bill',
-        details: '',
-        date: '11/20/18',
-        completed: false
-      },
-      {
-        id: 3,
-        title: 'Buy orange fur for Gritty Halloween costume',
-        details: '',
-        date: '10/30/18',
-        completed: true
-      },
-      {
-        id: 4,
-        title: 'Find a tofurkey recipe for Friendsgiving',
-        details: '',
-        date: '11/22/18',
-        completed: false
-      }
-    ],
-    nextId: 5
+    todos: [],
+    nextId: 1
   },
   getters: {
     getTodos: state => state.todos,
@@ -52,6 +55,10 @@ export default new Vuex.Store({
     getNextId: state => state.nextId
   },
   mutations: {
+    FETCH_TODOS (state, todo) {
+      state.todos = storedTodos;
+      state.nextId = storedId;
+    },
     ADD_TO_LIST (state, todo) {
       state.todos.push(todo);
       state.nextId++;
@@ -78,6 +85,11 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    fetchTodos ({ commit }) {
+      return delay(800).then(() => {
+        return commit('FETCH_TODOS');
+      });
+    },
     addTodo ({ commit }, todo) {
       return delay(200).then(() => {
         return commit('ADD_TO_LIST', todo);

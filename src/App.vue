@@ -33,6 +33,9 @@ export default {
         return true;
       }
     }
+  },
+  created () {
+    this.$store.dispatch('fetchTodos');
   }
 };
 </script>
