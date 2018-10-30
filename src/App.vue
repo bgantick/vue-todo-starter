@@ -1,0 +1,135 @@
+<template>
+  <div id="app">
+    <div class="container">
+      <div class="header">
+        <h1 :class="{ 'is-inner': !home }">
+          <router-link :to="{ name: 'home' }">
+            <IconCaret v-if="!home" />
+            Your to do's
+          </router-link>
+        </h1>
+      </div>
+      <router-view :todos.sync="todos" />
+    </div>
+  </div>
+</template>
+
+<script>
+import IconCaret from '@/components/svgs/IconCaret';
+
+export default {
+  name: 'App',
+  components: { IconCaret },
+  computed: {
+    todos () {
+      return this.$store.getters.getTodos;
+    },
+    home () {
+      if (this.$route.name === 'home') {
+        return true;
+      }
+    }
+  }
+};
+</script>
+
+<style lang="scss">
+body {
+  margin: 0;
+  padding: 0;
+  background: #1F1F1F;
+  color: #1F1F1F;
+}
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.container {
+  display: block;
+  width: 320px;
+  margin: 20px auto 50px;
+}
+.button {
+  display: inline-block;
+  padding: 2px 10px 4px;
+  text-transform: uppercase;
+  border: 2px solid #F5C2E0;
+  border-radius: 25px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.25s ease-out 0s;
+  &--primary {
+    background: #F5C2E0;
+    color: #1F1F1F;
+    &:hover, &:focus {
+      outline: 0;
+      background: #1F1F1F;
+      color: #F5C2E0;
+    }
+  }
+  &--secondary {
+    background: #1F1F1F;
+    color: #F5C2E0;
+    &:hover, &:focus {
+      outline: 0;
+      background: #F5C2E0;
+      color: #1F1F1F;
+    }
+  }
+  &--text {
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase;
+    border: 0;
+    border-radius: 0;
+    font-size: 12px;
+    background: transparent;
+    color: #646464;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    &:hover, &:focus {
+      outline: 0;
+      border-color: #646464;
+    }
+  }
+  &--large {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    background: #1F1F1F;
+    border-color: #1F1F1F;
+    color: #FFF;
+    &:hover, &:focus {
+      outline: 0;
+      background: #FFF;
+      color: #1F1F1F;
+    }
+  }
+}
+.u-sr-only {
+  position: absolute;
+  left: -999rem;
+}
+</style>
+
+<style scoped lang="scss">
+  a {
+    color: #FFF;
+    text-decoration: none;
+    &:hover, &:focus {
+      svg {
+        transform: translateX(-5px);
+      }
+    }
+  }
+  h1 {
+    margin: 0 12px 20px;
+    font-size: 50px;
+    font-weight: 600;
+    &.is-inner {
+      display: inline-block;
+      font-size: 18px;
+    }
+  }
+</style>
