@@ -2,14 +2,16 @@
   <div class="item" :class="{ 'is-editing': editing }">
     <form @submit.prevent="updateTodo">
       <label for="item-title">Task name</label>
-      <textarea-autosize id="item-title" v-model="item.title" @focus.native="editing = true"></textarea-autosize>
+      <textarea-autosize id="item-title" v-model="item.title" :class="{ 'is-errored': error }" @focus.native="editing = true"></textarea-autosize>
       <label for="item-date">Due date</label>
       <datepicker id="item-date" v-model="item.date" :format="'M/dd/yy'" @opened="editing = true"></datepicker>
       <hr>
       <label for="item-details">Task details</label>
       <textarea-autosize id="item-details" v-model="item.details" @focus.native="editing = true"></textarea-autosize>
       <!-- TODO: button snapping in is jarring - transition the following button element -->
+      <!-- TODO: add some motion on error -->
       <button v-if="editing" class="button button--large">Save Changes</button>
+      <p v-if="error"><IconAlert /><span>Task name is required.</span></p>
     </form>
     <div class="item__controls">
       <button v-if="!editing" class="button button--primary" @click="toggleItem(item)">{{ buttonText }}</button>
@@ -22,17 +24,20 @@
 import Datepicker from 'vuejs-datepicker';
 import Vue from 'vue';
 import VueTextareaAutosize from 'vue-textarea-autosize';
+import IconAlert from '@/components/svgs/IconAlert';
 
 Vue.use(VueTextareaAutosize);
 
 export default {
   name: 'TheItem',
   components: {
-    Datepicker
+    Datepicker,
+    IconAlert
   },
   data () {
     return {
-      editing: false
+      editing: false,
+      error: false
     };
   },
   computed: {
@@ -52,8 +57,13 @@ export default {
       this.$router.push({ name: 'home' });
     },
     updateTodo: function () {
-      this.$store.dispatch('updateTodo', this.item);
-      this.$router.push({ name: 'home' });
+      if (this.item.title.length < 3) {
+        this.error = true;
+        document.getElementById('item-title').focus();
+      } else {
+        this.$store.dispatch('updateTodo', this.item);
+        this.$router.push({ name: 'home' });
+      }
     }
   }
 };
@@ -100,14 +110,34 @@ export default {
   #item-title {
     font-size: 30px;
     font-weight: 500;
+    &.is-errored {
+      border: 1px solid red;
+      &:focus {
+        outline: 0;
+        border: 1px solid red;
+      }
+    }
   }
   .button--large {
-    margin: 30px 0;
+    margin: 30px 0 15px;
+  }
+  p {
+    margin: 0;
+    font-size: 11px;
+    text-align: center;
+    span, svg {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    span {
+      margin-left: 6px;
+    }
   }
   .item__controls {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    margin-top: 15px;
     .is-editing & {
       justify-content: flex-end;
     }
