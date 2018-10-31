@@ -3,6 +3,8 @@
     <!-- TODO: Animate button state -->
     <button class="item__toggle" :class="{ 'is-complete': item.completed }" @click="toggleTodo(item)">
       <span class="u-sr-only">Toggle</span>
+      <IconCheck v-if="item.completed" />
+      <IconCircle v-else />
     </button>
     <div class="item__content">
       <router-link v-if="item.title" :to="{ name: 'todo', params: { id: item.id } }">{{ item.title }}</router-link>
@@ -15,9 +17,14 @@
 </template>
 
 <script>
+import TweenMax from 'gsap';
+import IconCheck from '@/components/svgs/IconCheck';
+import IconCircle from '@/components/svgs/IconCircle';
+
 export default {
   name: 'TodoItem',
   props: ['item'],
+  components: { IconCheck, IconCircle },
   computed: {
     formattedDate: function () {
       const date = new Date(this.item.date);
@@ -30,6 +37,9 @@ export default {
   methods: {
     toggleTodo (todo) {
       this.$emit('toggle-todo', todo);
+      if (this.item.completed) {
+        TweenMax.to('#circle')
+      }
     },
     deleteTodo (todo) {
       this.$emit('delete-todo', todo);
@@ -47,16 +57,9 @@ export default {
   }
   .item__toggle {
     position: absolute;
-    top: 23px;
-    left: 25px;
-    width: 25px;
-    height: 25px;
-    border: 2px solid #000;
+    border: 0;
     border-radius: 25px;
     cursor: pointer;
-    &.is-complete {
-      background: #000;
-    }
   }
   .item__content {
     margin-left: 60px;

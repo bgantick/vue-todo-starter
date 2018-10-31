@@ -2,16 +2,23 @@
   <div id="app">
     <!-- TODO: Create a loading animation with IconLoader.vue -->
     <div class="container">
-      <div class="header">
-        <h1 :class="{ 'is-inner': !home }">
-          <router-link :to="{ name: 'home' }">
-            <IconCaret v-if="!home" />
-            Your to do's
-          </router-link>
-        </h1>
+      <div class="loader" v-if="loading">
+        <IconLoader />
       </div>
-      <!-- TODO: Add a router transition that handles toggling between the list view and detail view -->
-      <router-view :todos.sync="todos" />
+      <div v-else>
+        <div class="header">
+          <h1 :class="{ 'is-inner': !home }">
+            <router-link :to="{ name: 'home' }">
+              <IconCaret v-if="!home" />
+              Your to do's
+            </router-link>
+          </h1>
+        </div>
+        <!-- TODO: Add a router transition that handles toggling between the list view and detail view -->
+        <transition :name="transitionName" mode="out-in">
+          <router-view :todos.sync="todos" />
+        </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -23,7 +30,19 @@ import IconLoader from '@/components/svgs/IconLoader';
 export default {
   name: 'App',
   components: { IconCaret, IconLoader },
+  data () {
+    return {
+      transitionName: 'default'
+    }
+  },
   // TODO: Hint: you'll need to watch `$route` to determine which transition to use
+  watch: {
+    '$route' (to, from) {
+      const toDepth = to.path.split('/').length;
+      const fromDepth = from.path.split('/').length;
+      this.transitionName = toDepth < fromDepth ? 'list' : 'detail';
+    }
+  },
   computed: {
     loading () {
       return this.$store.getters.getLoading;
@@ -58,6 +77,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 .container {
+  position: relative;
   display: block;
   width: 320px;
   margin: 20px auto 50px;
@@ -126,6 +146,31 @@ body {
 </style>
 
 <style scoped lang="scss">
+  .list-leave-to, .list-enter-to {
+    background: red;
+  }
+  .detail-enter-to, .detail-leave-to {
+    background: blue;
+  }
+  .list-enter, .list-leave {
+    background: green;
+  }
+  .detail-enter, .detail-leave {
+    background: purple;
+  }
+  .detail-enter-active,
+  .list-enter-active,
+  .detail-leave-active,
+  .list-leave-active {
+    transition-duration: 200ms;
+    transition-property: background;
+    transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+  }
+
+  .loader {
+    text-align: center;
+    padding-top: 25vh;
+  }
   a {
     color: #FFF;
     text-decoration: none;

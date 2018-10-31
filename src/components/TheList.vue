@@ -3,20 +3,25 @@
     <button class="button button--primary" @click="addItem">New to do</button>
     <div v-for="group in groups">
       <h2>{{ group.name }}</h2>
-      <ul v-if="group.array.length > 0" class="list">
+      <transition-group name="list" class="list" tag="ul" mode="in-out">
         <!-- TODO: Transition each item in on add and out on delete -->
         <li v-for="item in group.array" class="list__item" :key="item.id">
           <TodoItem :item.sync="item" @toggle-todo="toggleItem" @delete-todo="removeItem" />
         </li>
-      </ul>
-      <p v-else>No items!</p>
+      </transition-group>
+      <FadeTransition>
+        <p v-if="group.array.length === 0">No items!</p>
+      </FadeTransition>
       <!-- TODO: button snapping in is jarring - transition the following button element -->
-      <button v-if="group.name === 'Done' && group.array.length > 0" class="button button--secondary" @click="removeCompleted">Clear Completed</button>
+      <transition name="fade">
+        <button v-if="group.name === 'Done' && group.array.length > 0" class="button button--secondary" @click="removeCompleted">Clear Completed</button>
+      </transition>
     </div>
   </div>
 </template>
 
 <script>
+import FadeTransition from '@/components/FadeTransition.vue';
 import TodoItem from '@/components/TodoItem';
 
 export default {
@@ -69,6 +74,32 @@ export default {
 </script>
 
 <style scoped>
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.3s;
+  }
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+  }
+
+  .list__item {
+    display: block;
+    transition: all 0.3s;
+  }
+  .list-enter {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  .list-leave-to {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  .list-leave-active {
+    width: 100%;
+    position: absolute;
+  }
+
   h2 {
     margin: 0 12px 14px;
     padding-bottom: 8px;

@@ -1,6 +1,6 @@
 <template>
   <svg width="100px" height="119px" viewBox="0 0 100 119" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>Loading...</title>
+    <title>{{ title }}</title>
     <g>
       <polygon id="line-1" fill="#377EE7" points="14 96 18 96 18 26 14 26"></polygon>
       <polygon id="line-2" fill="#DF4036" points="82 40 86 40 86 0 82 0"></polygon>
@@ -16,6 +16,11 @@
 
 <script>
 export default {
+  data () {
+    return {
+      title: 'Loading...'
+    }
+  }
 };
 </script>
 
