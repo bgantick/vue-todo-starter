@@ -1,7 +1,7 @@
 <template>
   <div class="inner">
     <button class="button button--primary" @click="addItem">New to do</button>
-    <div v-for="group in groups">
+    <div v-for="group in groups" :key="group.name">
       <h2>{{ group.name }}</h2>
       <ul v-if="group.array.length > 0" class="list">
         <!-- TODO: Transition each item in on add and out on delete -->
@@ -26,7 +26,7 @@ export default {
     groups: function () {
       let groups = {
         activeItems: { name: 'Pending', array: [] },
-        inactiveItems: { name: 'Done', array: []}
+        inactiveItems: { name: 'Done', array: [] }
       };
       let activeItems = this.todos.filter((item) => {
         return item.completed === false;
