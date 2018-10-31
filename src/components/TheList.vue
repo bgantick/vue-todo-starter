@@ -1,26 +1,18 @@
 <template>
   <div class="inner">
     <button class="button button--primary" @click="addItem">New to do</button>
-    <!-- Active Items -->
-    <h2>Pending</h2>
-    <ul v-if="activeItems.length > 0" class="list">
-      <li v-for="item in activeItems" class="list__item" :key="item.id">
-        <TodoItem :item.sync="item" @toggle-todo="toggleItem" @delete-todo="removeItem" />
-      </li>
-    </ul>
-    <p v-else>No items!</p>
-    <!-- Inactive Items -->
-    <h2>Done</h2>
-    <div v-if="inactiveItems.length > 0">
-      <ul class="list">
-        <li v-for="item in inactiveItems" class="list__item" :key="item.id">
+    <div v-for="group in groups">
+      <h2>{{ group.name }}</h2>
+      <ul v-if="group.array.length > 0" class="list">
+        <!-- TODO: Transition each item in on add and out on delete -->
+        <li v-for="item in group.array" class="list__item" :key="item.id">
           <TodoItem :item.sync="item" @toggle-todo="toggleItem" @delete-todo="removeItem" />
         </li>
       </ul>
+      <p v-else>No items!</p>
       <!-- TODO: button snapping in is jarring - transition the following button element -->
-      <button class="button button--secondary" @click="removeCompleted">Clear Completed</button>
+      <button v-if="group.name === 'Done' && group.array.length > 0" class="button button--secondary" @click="removeCompleted">Clear Completed</button>
     </div>
-    <p v-else>No items!</p>
   </div>
 </template>
 
@@ -31,16 +23,21 @@ export default {
   name: 'TheList',
   props: ['todos'],
   computed: {
-    activeItems: function () {
-      const items = this.todos.filter((item) => {
+    groups: function () {
+      let groups = {
+        activeItems: { name: 'Pending', array: [] },
+        inactiveItems: { name: 'Done', array: []}
+      };
+      let activeItems = this.todos.filter((item) => {
         return item.completed === false;
       });
-      return items.sort((a, b) => new Date(a.date) - new Date(b.date));
-    },
-    inactiveItems: function () {
-      return this.todos.filter((item) => {
+      activeItems = activeItems.sort((a, b) => new Date(a.date) - new Date(b.date));
+      groups.activeItems.array = activeItems;
+      const inactiveItems = this.todos.filter((item) => {
         return item.completed === true;
       });
+      groups.inactiveItems.array = inactiveItems;
+      return groups;
     }
   },
   components: {

@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO: Transition this component in on create/state toggle and out on delete -->
   <article class="item">
     <!-- TODO: Animate button state -->
     <button class="item__toggle" :class="{ 'is-complete': item.completed }" @click="toggleTodo(item)">
