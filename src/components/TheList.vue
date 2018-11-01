@@ -1,6 +1,5 @@
 <template>
   <div class="inner">
-    <button class="button button--primary" @click="addItem">New to do</button>
     <div v-for="group in groups" :key="group.name">
       <h2>{{ group.name }}</h2>
       <ul v-if="group.array.length > 0" class="list">
@@ -44,17 +43,6 @@ export default {
     TodoItem
   },
   methods: {
-    addItem: function () {
-      const item = {
-        id: this.$store.getters.getNextId,
-        title: '',
-        details: '',
-        date: '',
-        completed: false
-      };
-      this.$store.dispatch('addTodo', item);
-      this.$router.push({ name: 'todo', params: { id: item.id } });
-    },
     toggleItem: function (item) {
       this.$store.dispatch('toggleTodo', item);
     },
@@ -80,13 +68,6 @@ export default {
     margin: 0 0 30px;
     padding: 0;
     list-style: none;
-  }
-  .button {
-    display: block;
-  }
-  .button--primary {
-    margin-left: 12px;
-    margin-bottom: 30px;
   }
   .button--secondary {
     margin: 0 auto;

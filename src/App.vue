@@ -9,6 +9,8 @@
             Your to do's
           </router-link>
         </h1>
+        <!-- TODO: fade this button -->
+        <button v-if="home" class="button button--primary" @click="addItem">New to do</button>
       </div>
       <!-- TODO: Add a router transition that handles toggling between the list view and detail view -->
       <router-view :todos.sync="todos" />
@@ -35,6 +37,19 @@ export default {
       if (this.$route.name === 'home') {
         return true;
       }
+    }
+  },
+  methods: {
+    addItem: function () {
+      const item = {
+        id: this.$store.getters.getNextId,
+        title: '',
+        details: '',
+        date: '',
+        completed: false
+      };
+      this.$store.dispatch('addTodo', item);
+      this.$router.push({ name: 'todo', params: { id: item.id } });
     }
   },
   created () {
@@ -64,7 +79,7 @@ body {
   margin: 20px auto 50px;
 }
 .button {
-  display: inline-block;
+  display: block;
   padding: 2px 10px 4px;
   text-transform: uppercase;
   border: 2px solid #F5C2E0;
@@ -145,5 +160,9 @@ body {
       display: inline-block;
       font-size: 18px;
     }
+  }
+  .button--primary {
+    margin-left: 12px;
+    margin-bottom: 30px;
   }
 </style>
