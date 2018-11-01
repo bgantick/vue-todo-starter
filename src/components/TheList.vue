@@ -10,7 +10,9 @@
       </ul>
       <p v-else>No items!</p>
       <!-- TODO: button snapping in is jarring - transition the following button element -->
-      <button v-if="group.name === 'Done' && group.array.length > 0" class="button button--secondary" @click="removeCompleted">Clear Completed</button>
+      <transition name="fade">
+        <button v-if="group.name === 'Done' && group.array.length > 0" class="button button--secondary" @click="removeCompleted">Clear Completed</button>
+      </transition>
     </div>
   </div>
 </template>
@@ -57,6 +59,15 @@ export default {
 </script>
 
 <style scoped>
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.3s;
+  }
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+  }
+
   h2 {
     margin: 0 12px 14px;
     padding-bottom: 8px;
