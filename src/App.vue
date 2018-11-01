@@ -14,9 +14,9 @@
         </FadeTransition>
       </div>
       <!-- TODO: Add a router transition that handles toggling between the list view and detail view -->
-      <FadeTransition>
+      <transition :name="transitionName">
         <router-view :todos.sync="todos" />
-      </FadeTransition>
+      </transition>
     </div>
   </div>
 </template>
@@ -29,7 +29,19 @@ import IconLoader from '@/components/svgs/IconLoader';
 export default {
   name: 'App',
   components: { FadeTransition, IconCaret, IconLoader },
+  data () {
+    return {
+      transitionName: 'default'
+    };
+  },
   // TODO: Hint: you'll need to watch `$route` to determine which transition to use
+  watch: {
+    '$route' (to, from) {
+      const toDepth = to.path.split('/').length;
+      const fromDepth = from.path.split('/').length;
+      this.transitionName = toDepth < fromDepth ? 'list' : 'detail';
+    }
+  },
   computed: {
     loading () {
       return this.$store.getters.getLoading;
@@ -146,6 +158,60 @@ body {
 </style>
 
 <style scoped lang="scss">
+  .list-enter-active {
+    animation: growfade 1s;
+  }
+  .list-leave-active {
+    animation: shrinkfade 1s;
+  }
+  .detail-enter-active {
+    animation: upfade 1s;
+  }
+  .detail-leave-active {
+    animation: downfade 1s;
+  }
+
+  @keyframes growfade {
+    from {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  @keyframes shrinkfade {
+    from {
+      transform: scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+  }
+  @keyframes upfade {
+    from {
+      transform: translateY(100px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  @keyframes downfade {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(100px);
+      opacity: 0;
+    }
+  }
+
   a {
     color: #FFF;
     text-decoration: none;
