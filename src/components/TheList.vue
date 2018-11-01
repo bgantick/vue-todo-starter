@@ -3,7 +3,6 @@
     <div v-for="group in groups" :key="group.name">
       <h2>{{ group.name }}</h2>
       <transition-group name="list" class="list" tag="ul" mode="in-out">
-        <!-- TODO: Transition each item in on add and out on delete -->
         <li v-for="item in group.array" class="list__item" :key="item.id">
           <TodoItem :item.sync="item" @toggle-todo="toggleItem" @delete-todo="removeItem" />
         </li>

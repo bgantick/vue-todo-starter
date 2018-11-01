@@ -10,7 +10,9 @@
           </router-link>
         </h1>
         <!-- TODO: fade this button -->
-        <button v-if="home" class="button button--primary" @click="addItem">New to do</button>
+        <FadeTransition>
+          <button v-if="home" class="button button--primary" @click="addItem">New to do</button>
+        </FadeTransition>
       </div>
       <!-- TODO: Add a router transition that handles toggling between the list view and detail view -->
       <router-view :todos.sync="todos" />
@@ -19,12 +21,13 @@
 </template>
 
 <script>
+import FadeTransition from '@/components/FadeTransition.vue';
 import IconCaret from '@/components/svgs/IconCaret';
 import IconLoader from '@/components/svgs/IconLoader';
 
 export default {
   name: 'App',
-  components: { IconCaret, IconLoader },
+  components: { FadeTransition, IconCaret, IconLoader },
   // TODO: Hint: you'll need to watch `$route` to determine which transition to use
   computed: {
     loading () {
