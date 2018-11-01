@@ -1,6 +1,5 @@
 <template>
   <div class="inner">
-    <button class="button button--primary" @click="addItem">New to do</button>
     <div v-for="group in groups" :key="group.name">
       <h2>{{ group.name }}</h2>
       <transition-group name="list" class="list" tag="ul" mode="in-out">
@@ -47,17 +46,6 @@ export default {
   },
   components: { TodoItem, FadeTransition },
   methods: {
-    addItem: function () {
-      const item = {
-        id: this.$store.getters.getNextId,
-        title: '',
-        details: '',
-        date: '',
-        completed: false
-      };
-      this.$store.dispatch('addTodo', item);
-      this.$router.push({ name: 'todo', params: { id: item.id } });
-    },
     toggleItem: function (item) {
       this.$store.dispatch('toggleTodo', item);
     },
@@ -98,6 +86,9 @@ export default {
     position: absolute;
   }
 
+  .inner {
+    padding-bottom: 120px;
+  }
   h2 {
     margin: 0 12px 14px;
     padding-bottom: 8px;
@@ -109,13 +100,6 @@ export default {
     margin: 0 0 30px;
     padding: 0;
     list-style: none;
-  }
-  .button {
-    display: block;
-  }
-  .button--primary {
-    margin-left: 12px;
-    margin-bottom: 30px;
   }
   .button--secondary {
     margin: 0 auto;

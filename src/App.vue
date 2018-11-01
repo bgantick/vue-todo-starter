@@ -13,9 +13,12 @@
               Your to do's
             </router-link>
           </h1>
+          <FadeTransition>
+            <button v-if="home" class="button button--primary" @click="addItem">New to do</button>
+          </FadeTransition>
         </div>
         <!-- TODO: Add a router transition that handles toggling between the list view and detail view -->
-        <transition :name="transitionName" mode="out-in">
+        <transition :name="transitionName">
           <router-view :todos.sync="todos" />
         </transition>
       </div>
@@ -24,12 +27,13 @@
 </template>
 
 <script>
+import FadeTransition from '@/components/FadeTransition.vue';
 import IconCaret from '@/components/svgs/IconCaret';
 import IconLoader from '@/components/svgs/IconLoader';
 
 export default {
   name: 'App',
-  components: { IconCaret, IconLoader },
+  components: { IconCaret, IconLoader, FadeTransition },
   data () {
     return {
       transitionName: 'default'
@@ -54,6 +58,19 @@ export default {
       if (this.$route.name === 'home') {
         return true;
       }
+    }
+  },
+  methods: {
+    addItem: function () {
+      const item = {
+        id: this.$store.getters.getNextId,
+        title: '',
+        details: '',
+        date: '',
+        completed: false
+      };
+      this.$store.dispatch('addTodo', item);
+      this.$router.push({ name: 'todo', params: { id: item.id } });
     }
   },
   created () {
@@ -82,8 +99,11 @@ body {
   width: 320px;
   margin: 20px auto 50px;
 }
+.inner {
+  position: absolute;
+}
 .button {
-  display: inline-block;
+  display: block;
   padding: 2px 10px 4px;
   text-transform: uppercase;
   border: 2px solid #F5C2E0;
@@ -146,25 +166,61 @@ body {
 </style>
 
 <style scoped lang="scss">
-  .list-leave-to, .list-enter-to {
-    background: red;
+  .list-enter-active {
+    animation: growfade 1s;
   }
-  .detail-enter-to, .detail-leave-to {
-    background: blue;
-  }
-  .list-enter, .list-leave {
-    background: green;
-  }
-  .detail-enter, .detail-leave {
-    background: yellow;
-  }
-  .detail-enter-active,
-  .list-enter-active,
-  .detail-leave-active,
   .list-leave-active {
-    transition-duration: 200ms;
-    transition-property: background;
-    transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+    animation: shrinkfade 1s;
+  }
+  .detail-enter-active {
+    animation: upfade 1s;
+  }
+  .detail-leave-active {
+    animation: downfade 1s;
+  }
+
+  @keyframes growfade {
+    from {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes shrinkfade {
+    from {
+      transform: scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+  }
+
+  @keyframes upfade {
+    from {
+      transform: translateY(100px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes downfade {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(100px);
+      opacity: 0;
+    }
   }
 
   .loader {
@@ -189,5 +245,9 @@ body {
       display: inline-block;
       font-size: 18px;
     }
+  }
+  .button--primary {
+    margin-left: 12px;
+    margin-bottom: 30px;
   }
 </style>

@@ -1,27 +1,29 @@
 <template>
-  <div class="item" :class="{ 'is-editing': editing }">
-    <form @submit.prevent="updateTodo">
-      <label for="item-title">Task name</label>
-      <textarea-autosize id="item-title" v-model="item.title" :class="{ 'is-errored': error }" @focus.native="editing = true"></textarea-autosize>
-      <label for="item-date">Due date</label>
-      <datepicker id="item-date" v-model="item.date" :format="'M/dd/yy'" @opened="editing = true"></datepicker>
-      <hr>
-      <label for="item-details">Task details</label>
-      <textarea-autosize id="item-details" v-model="item.details" @focus.native="editing = true"></textarea-autosize>
-      <!-- TODO: button snapping in is jarring - transition the following button element -->
-      <!-- TODO: add some motion on error -->
-      <FadeTransition>
-        <button v-if="editing" class="button button--large" :class="{ 'is-errored': error }">Save Changes</button>
-      </FadeTransition>
-      <FadeTransition>
-        <p v-if="error"><IconAlert /><span>Task name is required.</span></p>
-      </FadeTransition>
-    </form>
-    <div class="item__controls">
-      <FadeTransition>
-        <button v-if="!editing" class="button button--primary" @click="toggleItem(item)">{{ buttonText }}</button>
-      </FadeTransition>
-      <button class="button button--text" @click="removeItem(item)">Delete</button>
+  <div class="inner">
+    <div class="item" :class="{ 'is-editing': editing }">
+      <form @submit.prevent="updateTodo">
+        <label for="item-title">Task name</label>
+        <textarea-autosize id="item-title" v-model="item.title" :class="{ 'is-errored': error }" @focus.native="editing = true"></textarea-autosize>
+        <label for="item-date">Due date</label>
+        <datepicker id="item-date" v-model="item.date" :format="'M/dd/yy'" @opened="editing = true"></datepicker>
+        <hr>
+        <label for="item-details">Task details</label>
+        <textarea-autosize id="item-details" v-model="item.details" @focus.native="editing = true"></textarea-autosize>
+        <!-- TODO: button snapping in is jarring - transition the following button element -->
+        <!-- TODO: add some motion on error -->
+        <FadeTransition>
+          <button v-if="editing" class="button button--large" :class="{ 'is-errored': error }">Save Changes</button>
+        </FadeTransition>
+        <FadeTransition>
+          <p v-if="error"><IconAlert /><span>Task name is required.</span></p>
+        </FadeTransition>
+      </form>
+      <div class="item__controls">
+        <FadeTransition>
+          <button v-if="!editing" class="button button--primary" @click="toggleItem(item)">{{ buttonText }}</button>
+        </FadeTransition>
+        <button class="button button--text" @click="removeItem(item)">Delete</button>
+      </div>
     </div>
   </div>
 </template>
@@ -115,7 +117,6 @@ export default {
     border-top: 1px solid #1F1F1F;
   }
   .item {
-    height: 100%;
     padding: 45px 25px 120px;
     background: #FFF;
     transition: background 0.25s ease-out 0s;
