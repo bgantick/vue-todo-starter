@@ -8,16 +8,19 @@
           <TodoItem :item.sync="item" @toggle-todo="toggleItem" @delete-todo="removeItem" />
         </li>
       </ul>
-      <p v-else>No items!</p>
+      <FadeTransition>
+        <p v-if="group.array.length === 0">No items!</p>
+      </FadeTransition>
       <!-- TODO: button snapping in is jarring - transition the following button element -->
-      <transition name="fade">
+      <FadeTransition>
         <button v-if="group.name === 'Done' && group.array.length > 0" class="button button--secondary" @click="removeCompleted">Clear Completed</button>
-      </transition>
+      </FadeTransition>
     </div>
   </div>
 </template>
 
 <script>
+import FadeTransition from '@/components/FadeTransition.vue';
 import TodoItem from '@/components/TodoItem';
 
 export default {
@@ -42,7 +45,7 @@ export default {
     }
   },
   components: {
-    TodoItem
+    TodoItem, FadeTransition
   },
   methods: {
     toggleItem: function (item) {
@@ -59,15 +62,6 @@ export default {
 </script>
 
 <style scoped>
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity 0.3s;
-  }
-  .fade-enter,
-  .fade-leave-to {
-    opacity: 0;
-  }
-
   h2 {
     margin: 0 12px 14px;
     padding-bottom: 8px;
