@@ -9,13 +9,14 @@
             Your to do's
           </router-link>
         </h1>
-        <!-- TODO: fade this button -->
         <FadeTransition>
           <button v-if="home" class="button button--primary" @click="addItem">New to do</button>
         </FadeTransition>
       </div>
       <!-- TODO: Add a router transition that handles toggling between the list view and detail view -->
-      <router-view :todos.sync="todos" />
+      <FadeTransition>
+        <router-view :todos.sync="todos" />
+      </FadeTransition>
     </div>
   </div>
 </template>
