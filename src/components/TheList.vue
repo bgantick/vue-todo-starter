@@ -2,16 +2,15 @@
   <div class="inner">
     <div v-for="group in groups" :key="group.name">
       <h2>{{ group.name }}</h2>
-      <ul v-if="group.array.length > 0" class="list">
+      <transition-group name="list" class="list" tag="ul" mode="in-out">
         <!-- TODO: Transition each item in on add and out on delete -->
         <li v-for="item in group.array" class="list__item" :key="item.id">
           <TodoItem :item.sync="item" @toggle-todo="toggleItem" @delete-todo="removeItem" />
         </li>
-      </ul>
+      </transition-group>
       <FadeTransition>
         <p v-if="group.array.length === 0">No items!</p>
       </FadeTransition>
-      <!-- TODO: button snapping in is jarring - transition the following button element -->
       <FadeTransition>
         <button v-if="group.name === 'Done' && group.array.length > 0" class="button button--secondary" @click="removeCompleted">Clear Completed</button>
       </FadeTransition>
@@ -62,6 +61,23 @@ export default {
 </script>
 
 <style scoped>
+  .list__item {
+    display: block;
+    transition: all 0.5s;
+  }
+  .list-enter {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  .list-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  .list-leave-active {
+    width: 100%;
+    position: absolute;
+  }
+
   h2 {
     margin: 0 12px 14px;
     padding-bottom: 8px;
