@@ -111,10 +111,10 @@ export default {
     font-size: 30px;
     font-weight: 500;
     &.is-errored {
-      border: 1px solid red;
+      border: 2px solid red;
       &:focus {
         outline: 0;
-        border: 1px solid red;
+        border: 2px solid red;
       }
     }
   }

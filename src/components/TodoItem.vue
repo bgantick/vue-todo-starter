@@ -1,8 +1,9 @@
 <template>
   <article class="item">
     <!-- TODO: Animate button state -->
-    <button class="item__toggle" :class="{ 'is-complete': item.completed }" @click="toggleTodo(item)">
+    <button class="item__toggle" @click="toggleTodo(item)">
       <span class="u-sr-only">Toggle</span>
+      <IconIndicator :completed="item.completed" />
     </button>
     <div class="item__content">
       <router-link v-if="item.title" :to="{ name: 'todo', params: { id: item.id } }">{{ item.title }}</router-link>
@@ -15,9 +16,12 @@
 </template>
 
 <script>
+import IconIndicator from '@/components/svgs/IconIndicator';
+
 export default {
   name: 'TodoItem',
   props: ['item'],
+  components: { IconIndicator },
   computed: {
     formattedDate: function () {
       const date = new Date(this.item.date);
@@ -47,16 +51,8 @@ export default {
   }
   .item__toggle {
     position: absolute;
-    top: 23px;
-    left: 25px;
-    width: 25px;
-    height: 25px;
-    border: 2px solid #000;
-    border-radius: 25px;
+    border: 0;
     cursor: pointer;
-    &.is-complete {
-      background: #000;
-    }
   }
   .item__content {
     margin-left: 60px;

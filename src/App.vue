@@ -58,6 +58,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 .container {
+  position: relative;
   display: block;
   width: 320px;
   margin: 20px auto 50px;
