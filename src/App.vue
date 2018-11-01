@@ -33,7 +33,7 @@ export default {
   data () {
     return {
       transitionName: 'default'
-    }
+    };
   },
   // TODO: Hint: you'll need to watch `$route` to determine which transition to use
   watch: {
@@ -156,7 +156,7 @@ body {
     background: green;
   }
   .detail-enter, .detail-leave {
-    background: purple;
+    background: yellow;
   }
   .detail-enter-active,
   .list-enter-active,

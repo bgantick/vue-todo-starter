@@ -13,7 +13,9 @@
       <FadeTransition>
         <button v-if="editing" class="button button--large" :class="{ 'is-errored': error }">Save Changes</button>
       </FadeTransition>
-      <p v-if="error"><IconAlert /><span>Task name is required.</span></p>
+      <FadeTransition>
+        <p v-if="error"><IconAlert /><span>Task name is required.</span></p>
+      </FadeTransition>
     </form>
     <div class="item__controls">
       <FadeTransition>
@@ -131,10 +133,10 @@ export default {
     font-size: 30px;
     font-weight: 500;
     &.is-errored {
-      border: 1px solid red;
+      border: 2px solid red;
       &:focus {
         outline: 0;
-        border: 1px solid red;
+        border: 2px solid red;
       }
     }
   }

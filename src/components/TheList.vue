@@ -1,7 +1,7 @@
 <template>
   <div class="inner">
     <button class="button button--primary" @click="addItem">New to do</button>
-    <div v-for="group in groups">
+    <div v-for="group in groups" :key="group.name">
       <h2>{{ group.name }}</h2>
       <transition-group name="list" class="list" tag="ul" mode="in-out">
         <!-- TODO: Transition each item in on add and out on delete -->
@@ -31,7 +31,7 @@ export default {
     groups: function () {
       let groups = {
         activeItems: { name: 'Pending', array: [] },
-        inactiveItems: { name: 'Done', array: []}
+        inactiveItems: { name: 'Done', array: [] }
       };
       let activeItems = this.todos.filter((item) => {
         return item.completed === false;
@@ -45,9 +45,7 @@ export default {
       return groups;
     }
   },
-  components: {
-    TodoItem
-  },
+  components: { TodoItem, FadeTransition },
   methods: {
     addItem: function () {
       const item = {
@@ -85,15 +83,15 @@ export default {
 
   .list__item {
     display: block;
-    transition: all 0.3s;
+    transition: all 0.5s;
   }
   .list-enter {
     opacity: 0;
-    transform: translateX(-20px);
+    transform: translateX(-30px);
   }
   .list-leave-to {
     opacity: 0;
-    transform: translateX(20px);
+    transform: translateX(30px);
   }
   .list-leave-active {
     width: 100%;

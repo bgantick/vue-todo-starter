@@ -98,7 +98,7 @@ export default new Vuex.Store({
       });
     },
     fetchTodos ({ commit }) {
-      return delay(1000).then(() => {
+      return delay(1500).then(() => {
         return commit('FETCH_TODOS');
       });
     },
