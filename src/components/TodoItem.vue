@@ -1,7 +1,7 @@
 <template>
   <article class="item">
     <!-- TODO: Animate button state -->
-    <button class="item__toggle" :class="{ 'is-complete': item.completed }" @click="toggleTodo(item)">
+    <button class="item__toggle" @click="toggleTodo(item)">
       <span class="u-sr-only">Toggle</span>
       <IconIndicator :completed="item.completed" />
     </button>
@@ -52,7 +52,6 @@ export default {
   .item__toggle {
     position: absolute;
     border: 0;
-    border-radius: 25px;
     cursor: pointer;
   }
   .item__content {
