@@ -9,10 +9,9 @@
         <hr>
         <label for="item-details">Task details</label>
         <textarea-autosize id="item-details" v-model="item.details" @focus.native="editing = true"></textarea-autosize>
-        <!-- TODO: button snapping in is jarring - transition the following button element -->
         <!-- TODO: add some motion on error -->
         <FadeTransition>
-          <button v-if="editing" class="button button--large">Save Changes</button>
+          <button v-if="editing" class="button button--large" :class="{ 'is-errored': error }">Save Changes</button>
         </FadeTransition>
         <FadeTransition>
           <p v-if="error"><IconAlert /><span>Task name is required.</span></p>
@@ -97,6 +96,21 @@ export default {
 </style>
 
 <style scoped lang="scss">
+  @keyframes shake {
+    0% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-20px);
+    }
+    75% {
+      transform: translateX(20px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
   hr {
     margin: 30px 0;
     border: 0;
@@ -129,6 +143,9 @@ export default {
   }
   .button--large {
     margin: 30px 0 15px;
+    &.is-errored {
+      animation: shake 0.3s;
+    }
   }
   p {
     margin: 0;
