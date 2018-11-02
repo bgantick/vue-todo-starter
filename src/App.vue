@@ -13,7 +13,6 @@
           <button v-if="home" class="button button--primary" @click="addItem">New to do</button>
         </FadeTransition>
       </div>
-      <!-- TODO: Add a router transition that handles toggling between the list view and detail view -->
       <transition :name="transitionName">
         <router-view :todos.sync="todos" />
       </transition>
@@ -34,7 +33,6 @@ export default {
       transitionName: 'default'
     };
   },
-  // TODO: Hint: you'll need to watch `$route` to determine which transition to use
   watch: {
     '$route' (to, from) {
       const toDepth = to.path.split('/').length;
