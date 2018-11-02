@@ -94,6 +94,10 @@ body {
   width: 320px;
   margin: 20px auto 50px;
 }
+.inner {
+  position: absolute;
+  width: 100%;
+}
 .button {
   display: block;
   padding: 2px 10px 4px;
