@@ -11,11 +11,17 @@
         <textarea-autosize id="item-details" v-model="item.details" @focus.native="editing = true"></textarea-autosize>
         <!-- TODO: button snapping in is jarring - transition the following button element -->
         <!-- TODO: add some motion on error -->
-        <button v-if="editing" class="button button--large">Save Changes</button>
-        <p v-if="error"><IconAlert /><span>Task name is required.</span></p>
+        <FadeTransition>
+          <button v-if="editing" class="button button--large">Save Changes</button>
+        </FadeTransition>
+        <FadeTransition>
+          <p v-if="error"><IconAlert /><span>Task name is required.</span></p>
+        </FadeTransition>
       </form>
       <div class="item__controls">
-        <button v-if="!editing" class="button button--primary" @click="toggleItem(item)">{{ buttonText }}</button>
+        <FadeTransition>
+          <button v-if="!editing" class="button button--primary" @click="toggleItem(item)">{{ buttonText }}</button>
+        </FadeTransition>
         <button class="button button--text" @click="removeItem(item)">Delete</button>
       </div>
     </div>
@@ -27,6 +33,7 @@ import Datepicker from 'vuejs-datepicker';
 import Vue from 'vue';
 import VueTextareaAutosize from 'vue-textarea-autosize';
 import IconAlert from '@/components/svgs/IconAlert';
+import FadeTransition from '@/components/FadeTransition.vue';
 
 Vue.use(VueTextareaAutosize);
 
@@ -34,7 +41,8 @@ export default {
   name: 'TheItem',
   components: {
     Datepicker,
-    IconAlert
+    IconAlert,
+    FadeTransition
   },
   data () {
     return {
