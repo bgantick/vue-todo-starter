@@ -1,9 +1,8 @@
 <template>
   <div id="app">
-    <!-- TODO: Create a loading animation with IconLoader.vue -->
     <div class="container">
       <div class="loader" v-if="loading">
-
+        <IconLoader />
       </div>
       <div v-else>
         <div class="header">
@@ -219,6 +218,10 @@ body {
     }
   }
 
+  .loader {
+    text-align: center;
+    padding-top: 25vh;
+  }
   a {
     color: #FFF;
     text-decoration: none;
