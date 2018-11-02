@@ -2,20 +2,25 @@
   <div id="app">
     <!-- TODO: Create a loading animation with IconLoader.vue -->
     <div class="container">
-      <div class="header">
-        <h1 :class="{ 'is-inner': !home }">
-          <router-link :to="{ name: 'home' }">
-            <IconCaret v-if="!home" />
-            Your to do's
-          </router-link>
-        </h1>
-        <FadeTransition>
-          <button v-if="home" class="button button--primary" @click="addItem">New to do</button>
-        </FadeTransition>
+      <div class="loader" v-if="loading">
+
       </div>
-      <transition :name="transitionName">
-        <router-view :todos.sync="todos" />
-      </transition>
+      <div v-else>
+        <div class="header">
+          <h1 :class="{ 'is-inner': !home }">
+            <router-link :to="{ name: 'home' }">
+              <IconCaret v-if="!home" />
+              Your to do's
+            </router-link>
+          </h1>
+          <FadeTransition>
+            <button v-if="home" class="button button--primary" @click="addItem">New to do</button>
+          </FadeTransition>
+        </div>
+        <transition :name="transitionName">
+          <router-view :todos.sync="todos" />
+        </transition>
+      </div>
     </div>
   </div>
 </template>

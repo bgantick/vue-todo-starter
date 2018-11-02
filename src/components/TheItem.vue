@@ -9,7 +9,6 @@
         <hr>
         <label for="item-details">Task details</label>
         <textarea-autosize id="item-details" v-model="item.details" @focus.native="editing = true"></textarea-autosize>
-        <!-- TODO: add some motion on error -->
         <FadeTransition>
           <button v-if="editing" class="button button--large" :class="{ 'is-errored': error }">Save Changes</button>
         </FadeTransition>
